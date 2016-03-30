@@ -1,0 +1,470 @@
+%!TEX TS-program = latex
+%!TEX encoding = UTF-8 Unicode
+%
+% Copyright 2009 Cristóvão Sousa
+% License: CC-BY (http://creativecommons.org/licenses/by/3.0/)
+
+\documentclass[
+%   draft,
+  a4paper,
+%   titlepage,
+  onecolumn,
+  11pt,
+  ]%
+% {scrartcl}%
+{article}%
+
+
+
+\usepackage[utf8]{inputenc} % codificação deste ficheiro em UTF-8
+
+\usepackage[T1]{fontenc} % necessário para que os caracteres acentuados possam ser considerados como um só bloco ( efeito colaterar: se você gerar PDFs a partir do arquivo tex as fontes vão ficar terríveis)
+
+%% precisa ser carregado um outro tipo de letra por causa do efeito colateral do pacote T1:
+\usepackage{lmodern} % Fonte "Latin Modern" - A solução óptima para fontes latinas (resolve o problema do T1)
+% \usepackage{times}   % Fonte "Times New"
+% \usepackage{palatino}  % Fonte
+% \usepackage{newcent}   % Fonte
+% \usepackage{bookman}   % Fonte
+% \usepackage{pandora}   % Fonte
+% \usepackage{helvet}    % Fonte
+% \usepackage{avant}     % Fonte
+
+\usepackage{textcomp} % caracteres extra - símbolo do euro por exemplo
+
+% \usepackage[portuguese]{babel} % tradução portuguesa
+% \newcommand{\referencesname}{Bibliografia}
+\newcommand{\referencesname}{References}
+
+%%%%%%%%%% Packages
+
+
+\usepackage[pdftex]{graphicx} % figuras 
+% \usepackage{subfigure} % subfiguras ( a,b,... )
+% \usepackage{wrapfig} % figuras ao lado de texto
+
+
+\usepackage{array} % mais opções nas tabelas (m{width}, b{width}, ...)
+\setlength{\extrarowheight}{1pt} % extra espaço entre as linhas das tabelas
+% \usepackage{multirow} % tabelas com células multilinha
+
+\usepackage{fancyhdr} % Estilo de página
+
+% \usepackage{listings} % Highlight de código fonte
+% \renewcommand{\lstlistingname}{Listagem} % tradução para português (referente ao package listings)
+% \renewcommand{\lstlistlistingname}{Listagens} % tradução para português (referente ao package listings)
+
+\usepackage[usenames,hyperref,pdftex%
+ ,svgnames%
+ ,x11names%
+ ,dvipsnames%
+ ]{xcolor} % Utilização de cores
+
+
+\usepackage[left=2.3cm,right=2.4cm]{geometry} % Margins
+
+% \usepackage{setspace} % spacing between lines (\singlespacing, \onehalfspacing, ...)
+
+% math packages by AMS
+% \usepackage{amsmath} % main one
+% \usepackage{amsfonts}
+% \usepackage{amssymb}
+
+
+% \usepackage{moreverb} % more verbatim options (boxedverbatim)
+\usepackage{fancyvrb} % more verbatim options 
+
+% \usepackage{lipsum}
+
+
+% \usepackage{tikz}
+% Optional tikz libraries
+% \usetikzlibrary{arrows}
+
+
+% \usepackage[protrusion=true,expansion=true]{microtype}
+\usepackage[protrusion=true,expansion=true,stretch=10,shrink=10]{microtype} % micro-typographic extensions of pdfTEX (gets high quality text compostion)
+
+\usepackage[
+      pdftex,             %driver
+      a4paper,            % A4 paper
+      colorlinks=true,    %no frame around URL
+      urlcolor=MidnightBlue!80!white,    %no colors
+%       menucolor=black,    %no colors
+%       linkcolor=black,    %no colors
+%       pagecolor=black,    %no colors
+%       citecolor=black,    %no colors
+      bookmarks=true,    %tree-like TOC
+      bookmarksopen=true,    %expanded when starting
+      bookmarksnumbered=true, %Put section numbers in bookmarks
+      hyperfootnotes=true,    %no referencing of footnotes, does not compile
+      pdfpagemode=UseOutlines,    %show the bookmarks when starting the pdf viewer
+      plainpages=false, %solve problem ``destination with the same identifier'' warning
+      pdfpagelabels %solve problem ``destination with the same identifier'' warning
+]{hyperref} % fazer hyperlinks (usar como último ``usepackage'')
+
+
+% \usepackage[style=altlist,hypertoc,hyper,number=page]{glossary}
+
+
+% \usepackage{pdfpages}
+
+
+% \usepackage[]{todonotes}
+% \usepackage[disable]{todonotes}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% Ifenização
+\hyphenation{apli-ca-ção cons-tru-ção}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Criação de comandos:
+
+% \newcommand{\todo}[1]{{\sffamily \slshape {{\bfseries \textcolor{red}{TODO: }}\textcolor{blue}{#1}}}}
+\newcommand{\note}[1]{{\sffamily \slshape \textcolor{red}{#1}}}
+
+\colorlet{FPathColor}{Sepia}
+\colorlet{CmdColor}{MediumBlue}
+\colorlet{CmdRuleColor}{LightSteelBlue}
+\colorlet{FileTextColor}{DarkGreen}
+\CustomVerbatimCommand{\FPath}{Verb}{formatcom=\color{FPathColor},fontsize=\normalsize}
+\CustomVerbatimCommand{\Cmd}{Verb}{formatcom=\color{CmdColor},fontsize=\normalsize}
+\CustomVerbatimCommand{\FText}{Verb}{formatcom=\color{FileTextColor},fontsize=\normalsize}
+\DefineVerbatimEnvironment%
+  {Command}{Verbatim}
+  {formatcom=\color{CmdColor},frame=single,rulecolor=\color{CmdRuleColor},fontsize=\normalsize}
+\DefineVerbatimEnvironment%
+  {FileText}{Verbatim}
+  {formatcom=\color{FileTextColor},fontsize=\normalsize}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Definições para a classe do documento:
+
+\newcommand{\MYtitlestring}{How-to Install Xenomai in Ubuntu 10.04}
+\newcommand{\MYauthorstring}{Jorge Azevedo Cristóvão Sousa}
+\newcommand{\MYkeywordsstring}{how-to, Xenomai, Ubuntu, Lucid, 10.04, installation}
+\newcommand{\MYsubjectstring}{Xenomai installation}
+\newcommand{\MYemailstring}{jorge.amado.azevedo@gmail.com}
+\newcommand{\MYversionstring}{v1.0}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\hypersetup{%
+   pdftitle=\MYtitlestring,%
+   pdfauthor=\MYauthorstring,%
+%    pdfcreator=,%
+   pdfkeywords= {\MYkeywordsstring},%
+%    pdfproducer=,%
+   pdfsubject= \MYsubjectstring%
+} % informações do pdf (pacote hyperref)
+
+\pdfinfo{
+/Title	(\MYtitlestring)
+/Author (\MYauthorstring)
+/Keywords (\MYkeywordsstring)
+} % informações do pdf
+
+
+\title{\MYtitlestring}
+\author{Jorge Azevedo\\
+{\normalsize \href{mailto:\MYemailstring}{\MYemailstring}}}
+\date{\MYversionstring\ -- {\normalsize \today}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+ This \emph{how-to} describes one way to install Xenomai 2.5.5.2 on Ubuntu (or \emph{Any}buntu) 10.04.3 (Lucid Lynx) with Linux kernel 2.6.32.
+\end{abstract}
+
+
+
+\section*{Disclaimer}
+The author makes no representations or warranties with respect to the contents or use of this document.
+Use it at your own risk.
+
+
+\section{Introduction}
+This guide is intended to help installing Xenomai in an Ubuntu based Linux system.
+As it specifically provides commands to this distribution and version, the process should be quite similar on other Debian based distros.
+This Ubuntu version comes with 2.6.32.x kernel version, so a 2.6.32 kernel should be used.
+
+This guide is a variant of "How-to Install RTAI in Ubuntu Hardy" by Cristóvão Sousa, who was kind enough to release his original work under a Creative Commons license and send me his source files.
+
+
+\section{Xenomai Libraries}
+The first step in installing Xenomai is installing its libraries.
+
+\begin{itemize}
+ \item All the necessary packages for compiling, building and installing the Xenomai libraries can be installed via the following commands
+\begin{Command}
+sudo apt-get install devscripts debhelper dh-kpatches
+\end{Command}
+
+\item Got to Downloads folder
+\begin{Command}
+cd ~/Downloads
+\end{Command}
+
+\item Download and untar Xenomai
+\begin{Command}[commandchars=\\\{\}]
+\footnotesize{wget -O - http://download.gna.org/xenomai/stable/xenomai-2.5.5.2.tar.bz2 | tar -jxf -}
+\end{Command}
+
+\item Go to its folder
+\begin{Command}
+cd xenomai-2.5.5.2
+\end{Command}
+
+\item Now we're ready to build the packages. Debian packages need at least our personal information and a note about versioning. So first we define that
+\begin{Command}[commandchars=\\\{\}]
+\footnotesize{DEBEMAIL="your@email" DEBFULLNAME="Your Name" debchange -v 2.5.5.2 Release 2.5.5.2}
+\end{Command}
+
+\item Now everything is in place, and all we have to do is build the packages
+\begin{Command}
+debuild -uc -us
+\end{Command}
+
+\item The resulting packages will be produced in the parent folder, so you can install them by doing
+\begin{Command}                                                                                                
+sudo dpkg -i ../*.deb
+\end{Command}
+
+\item Now we can check which kernel version are supported by our Xenomai version
+\begin{Command}
+ls -1 /usr/src/kernel-patches/diffs/xenomai
+\end{Command}
+
+\item Typically, the output will look something like this
+\begin{FileText}
+adeos-ipipe-2.6.30-arm-1.15-03.patch.gz
+adeos-ipipe-2.6.31-arm-1.16-02.patch.gz
+adeos-ipipe-2.6.32.20-x86-2.7-03.patch.gz
+adeos-ipipe-2.6.33-arm-1.18-00.patch.gz
+adeos-ipipe-2.6.34.4-powerpc-2.10-05.patch.gz
+adeos-ipipe-2.6.34.5-x86-2.7-04.patch.gz
+adeos-ipipe-2.6.35.7-powerpc-2.11-02.patch.gz
+adeos-ipipe-2.6.35.7-x86-2.7-04.patch.gz
+\end{FileText}
+
+\item Since our version of Ubuntu ships with kernel 2.6.32, we're gonna choose version 2.6.32.20. Adapt accordingly.
+\end{itemize}
+\section{Kernel}
+\begin{itemize}
+
+\item These packages will prepare your system for building a custom kernel package (these will take up almost 300mb of disk space, so consider yourself warned).
+
+\begin{Command}
+sudo apt-get build-dep --no-install-recommends linux-image-2.6.32-21-generic
+sudo apt-get install libncurses5-dev kernel-package
+\end{Command}
+
+ \item Linux source code is usually located in \FPath|/usr/src|, so let's start by going there
+ \begin{Command}
+cd /usr/src
+ \end{Command}
+
+\item Download and untar kernel source for version 2.6.32.20
+\begin{Command}[commandchars=\\\{\}]
+\footnotesize{sudo wget http://www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.32.20.tar.bz2}
+\end{Command}
+\begin{Command}
+sudo tar -jxf linux-2.6.32.20.tar.bz2
+\end{Command}
+
+\item Enter the source folder
+\begin{Command}
+cd linux-2.6.32.20
+\end{Command}
+
+\item Apply the patch
+\begin{Command}
+sudo /usr/src/kernel-patches/i386/apply/xenomai
+\end{Command}
+
+\item Now our ready for configuration. Instead of starting a configuration from scratch, our approach is to copy the original Ubuntu kernel .config to our folder and start configuration from there. This way we know for sure we have a kernel configuration that boots in our computer.
+\begin{Command}
+sudo cp ../linux-headers-2.6.32-33-generic/.config .config
+\end{Command}
+
+\item Since there's a slight missmatch in versions between the Ubuntu kernel from which we got the .config and our own kernel, we need to account for the possivel difference in configuration options. We do this by running the following. It is usually safe to just press enter and leave the different configurations at their default values.
+\begin{Command}
+sudo make oldconfig
+\end{Command}
+
+\item We're now ready to configure our new Xenomai kernel.
+\begin{Command}
+sudo make menuconfig
+\end{Command}
+
+\item This is where the main difficulty of installing Xenomai resides. The Linux kernel has many different options and some of them are not compatible with Xenomai. Which options are problematic is something that varies between systems. The basic recommended setup is the following
+
+  \begin{itemize}
+
+   \item \FText|Processor type and features|
+
+    \FText|Processor family| = choose yours
+
+    \FText|[ ] Enable -fstack-protector buffer overflow detection|
+
+   \item \FText|Power management and ACPI options|
+
+    \FText|[ ] Cpu Frequency scaling|
+
+    \item \FText| - ACPI (Advanced Configuration and Power Interface) Support|
+
+	\FText| - < > Processor|
+
+    
+
+  \end{itemize}
+
+
+\item Processor family
+
+Here you should choose your system's processor family. It is not recommended that you leave the default i586 option since, althought it is generic, it may present problems to Xenomai. (ref: xenomai.org)
+
+\item Enable -fstack-protector buffer overflow detection
+
+This is an Ubuntu kernel specificity. Without this option disabled, compilation will fail do to an incompatibility between our options and the Ubuntu default options.
+
+\item < > Processor
+\item Cpu Frequency scaling
+
+These options try to make the processor run as predicatibily as possible. By deactivating the processor ACPI support, the processor isn't thrown into deep sleep states when inactive. By deactivating frequency scaling support, the clock frequency does not vary as a function of system load.
+
+\end{itemize}
+
+After all changes have been done, exit and say yes to save the configuration.
+
+
+At this point the kernel source is ready for compilation. The next command will compile the kernel and generate debian packages. You should adjust concurrency level (number of paralell jobs) to your machine. Some suggest that it should be the number of cores plus one for maximum cpu usage. You should also adjust the --append-to-version parameter to fit your needs. In this case, the generated kernel version will be \FPath|2.6.32.20-xenomai-2.5.5.2|.
+
+
+
+\begin{Command}
+sudo CONCURRENCY_LEVEL=5 CLEAN_SOURCE=no fakeroot make-kpkg --initrd \
+--append-to-version -xenomai-2.5.5.2 --revision 1.0 kernel_image kernel_headers
+\end{Command}
+
+ This can take from 30 minutes to 3 hours depending on the machine you are using.
+ It can also consume up to 4 GB of disk space.
+ You will see many warning messages, don't worry.
+
+\begin{itemize}
+
+ \item Two deb packages are generated in \FPath|/usr/src/|, kernel image and source headers. Installation is as per usual
+\begin{Command}
+sudo dpkg -i ../*.deb
+\end{Command} 
+
+\item Finaly, we need to manually generate an initramfs or otherwise the system won't boot. This is a specificity of Ubuntu 10.04 and beyond. Previous versions of Ubuntu (and Debian) worked in a different manner.
+\begin{Command}
+sudo update-initramfs -c -k 2.6.32.20-xenomai-2.5.5.2 && sudo update-grub
+\end{Command}
+
+\end{itemize}
+
+\section{Xenomai Test}
+If everything goes smoothly in the above steps Xenomai is installed. To test it, reboot the computer and choose the new Xenomai kernel. If it boots properly, then execute the latency test:
+\begin{Command}
+cd /usr/share/libxenomai-dev/examples/native/
+sudo make
+sudo ./trivial-periodic
+\end{Command}
+Press \Cmd|Ctrl-C| to stop. A typical output from a successfull instalation looks like 
+ \begin{FileText}
+Time since last turn: 1000.145987ms
+Time since last turn: 1000.123452ms
+Time since last turn: 999.123545ms
+Time since last turn: 1000.123432ms
+Time since last turn: 999.12332ms
+Time since last turn: 999.87643ms
+ \end{FileText}
+
+trivial-periodic is a simple application with a period of one second. On each activation, the time elapsed since the last activation is displayed on screen. In essence, what we see is the variation of the application's period. This is a gross estimation of the sheduling jitter, but it's a sufficient test to assert the validity of our installation. If there are wild variations on theses values, something is wrong.
+
+There's a small trick to allow non root user access to Xenomai. During installation, a user group called "xenomai" was added to the system with group id number 125 (you can check it in /etc/group). First we'll add ourselves to that group
+
+\begin{Command}
+sudo usermod -a -G xenomai username
+\end{Command}
+
+Where "username" should be changed accordingly.
+
+Now we need to pass the group id as a special boot parameter to the system. This way, all users belonging to the "xenomai" group will have access to real-time performance. The boot parameter is passed through grub, so we edit its default behavior
+
+\begin{Command}
+sudo gedit /etc/default/grub
+\end{Command}
+
+And we edit the line that says
+
+\begin{FileText}
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+\end{FileText}
+
+To
+
+\begin{FileText}
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash xeno_nucleus.xenomai_gid=125"
+\end{FileText}
+
+The we update grub
+
+\begin{Command}
+sudo update-grub
+\end{Command}
+
+On restart, trivial-periodic should now run without sudo.
+
+
+If your kernel fails to boot or refuses to work in a normal, usefull fashion, please refer to \href{http://xenomai.org/index.php/FAQs#Tips_and_tricks_setting_up_your_x86_kernel} for help. One common workaround is disabling MSI (under Bus Options) and other more advanced options.
+
+\section{Conclusion}
+That's all. Your machine is ready for real time. If some problems arise during the process you can try to solve them by searching the internet for the error.
+
+\section{Further reading}
+\label{sec:further_reading}
+Here is a list of helpful documents for further help on Xenomai.
+
+  \begin{itemize}
+\item \href{http://xenomai.org/index.php/Building_Debian_packages}{\textbf{Xenomai- Building Debian Packages}} (on which this guide was based) contains the same content but under a different lens.
+
+\item \href{http://xenomai.org/index.php/Configuring_x86_kernels}{\textbf{Xenomai - Configuring x86 kernels}} is the "go to" resource on kernel compilations. Some of the more obscure kernel options are mentioned in this document.
+
+\item \href{http://xenomai.org/index.php/FAQs}{\textbf{Xenomai FAQ}} at  also contains further information on kernel configuration, under the section "Tips and tricks".
+
+  \end{itemize}
+
+
+% \section{References}
+\phantomsection \addcontentsline{toc}{section}{\referencesname}
+% \bibliographystyle{unsrt}
+%\bibliographystyle{IEEEtran}
+
+
+% \newpage
+% % \thispagestyle{empty}
+% \null
+
+% \cleardoublepage
+% \listoftodos
+\end{document}
+
